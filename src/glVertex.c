@@ -1,0 +1,111 @@
+#include <gl2es.h>
+#include <lists.h>
+
+#include <stdlib.h>
+#include <string.h>
+// todo: process glMultMatrix etc in the lists
+
+static
+void glVertex(float_t x, float_t y, float_t z, float_t w)
+{
+	int selected = GL2.lists_selected;
+	list_t* list = List(selected);
+	attrib_t* attrib;
+
+	attrib = List_Attrib(list, list->count);
+	attrib->vertex.x = x;
+	attrib->vertex.y = y;
+	attrib->vertex.z = z;
+	attrib->vertex.w = w;
+
+	list->count++;
+
+	// grow attribs vector if needed
+	size_t size = list->size;
+	size_t count = list->count;
+	if (count >= size) {
+		size_t new_size = count + count/3;
+		list->attribs = realloc(list->attribs, new_size * sizeof(attrib_t));
+		list->size = new_size;
+	}
+
+	if (list->mode == GL_QUADS && list->count % 6 == 4) {
+		glVertex(x, y, z, w);
+		glVertex(x, y, z, w);
+		int i = list->count;
+		//memcpy(&list->attribs[i-3], &list->attribs[i-6], sizeof(attrib_t));
+		list->attribs[i-1] = list->attribs[i-3];
+		list->attribs[i-2] = list->attribs[i-4];
+		list->attribs[i-3] = list->attribs[i-6];
+	}
+
+	// copy color data
+	attrib = List_Attrib(list, list->count);
+	attrib->color.r = GL2.color.r;
+	attrib->color.g = GL2.color.g;
+	attrib->color.b = GL2.color.b;
+	attrib->color.a = GL2.color.a;
+
+	(void) 0;
+}
+
+// -=( OpenGL )=--------------------
+//	https://registry.khronos.org/OpenGL-Refpages/gl2.1/xhtml/glVertex.xml
+#define X 0
+#define Y 0
+#define Z 0
+#define W 1
+
+// - 2 -
+#define GLVECTEX2(suffix,type) \
+	__attribute__((visibility("default")))\
+	void glVertex2##suffix(type x, type y)\
+	{\
+		(void) glVertex((float_t)x, (float_t)y, (float_t)Z, (float_t)W);\
+	}\
+	__attribute__((visibility("default")))\
+	void glVertex2##suffix##v(const type *v)\
+	{\
+		(void) glVertex((float_t)v[0], (float_t)v[1], (float_t)Z, (float_t)W);\
+	}
+
+GLVECTEX2(s, GLshort)
+GLVECTEX2(i, GLint)
+GLVECTEX2(f, GLfloat)
+GLVECTEX2(d, GLdouble)
+
+// - 3 -
+#define GLVECTEX3(suffix,type) \
+	__attribute__((visibility("default")))\
+	void glVertex3##suffix(type x, type y, type z)\
+	{\
+		(void) glVertex((float_t)x, (float_t)y, (float_t)z, (float_t)W);\
+	}\
+	__attribute__((visibility("default")))\
+	void glVertex3##suffix##v(const type *v)\
+	{\
+		(void) glVertex((float_t)v[0], (float_t)v[1], (float_t)v[2], (float_t)W);\
+	}
+
+GLVECTEX3(s, GLshort)
+GLVECTEX3(i, GLint)
+GLVECTEX3(f, GLfloat)
+GLVECTEX3(d, GLdouble)
+
+// - 4 -
+#define GLVECTEX4(suffix,type) \
+	__attribute__((visibility("default")))\
+	void glVertex4##suffix(type x, type y, type z, type w)\
+	{\
+		(void) glVertex((float_t)x, (float_t)y, (float_t)z, (float_t)w);\
+	}\
+	__attribute__((visibility("default")))\
+	void glVertex4##suffix##v(const type *v)\
+	{\
+		(void) glVertex((float_t)v[0], (float_t)v[1], (float_t)v[2], (float_t)v[3]);\
+	}
+
+GLVECTEX4(s, GLshort)
+GLVECTEX4(i, GLint)
+GLVECTEX4(f, GLfloat)
+GLVECTEX4(d, GLdouble)
