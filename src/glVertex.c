@@ -30,13 +30,21 @@ void glVertex(float_t x, float_t y, float_t z, float_t w)
 	}
 
 	if (list->mode == GL_QUADS && list->count % 6 == 4) {
+		// 1,2,3  4,4,4
 		glVertex(x, y, z, w);
 		glVertex(x, y, z, w);
 		int i = list->count;
-		//memcpy(&list->attribs[i-3], &list->attribs[i-6], sizeof(attrib_t));
-		list->attribs[i-1] = list->attribs[i-3];
+#ifndef COMPATIBLE_QUADS
+		// 1,2,3  1,3,4
 		list->attribs[i-2] = list->attribs[i-4];
 		list->attribs[i-3] = list->attribs[i-6];
+#else
+		// compatible, but slower a bit
+		// 1,2,4  2,3,4
+		list->attribs[i-2] = list->attribs[i-4];
+		list->attribs[i-3] = list->attribs[i-5];
+		list->attribs[i-4] = list->attribs[i-1];
+#endif
 	}
 
 	// copy color data
