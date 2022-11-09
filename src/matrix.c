@@ -23,13 +23,12 @@ void cross(float_t v1[3], float_t v2[3], float_t result[3])
 }
 
 
-
 // a*b -> c
 void matrix_mul_matrix(float_t *a, float_t *b, float_t *c)
 {
 #if defined(__ARM_NEON__) && !defined(__APPLE__)
     float_t* a1 = a+8;
-	float_t* b1 = b+8;
+    float_t* b1 = b+8;
     float_t* c1 = c+8;
     asm volatile (
     "vld1.32  {d16-d19}, [%2]       \n"
@@ -111,4 +110,23 @@ void matrix_mul_vector(float_t *a, float_t *b, float_t *c) {
     c[2] = a[ 8] * b[0] + a[ 9] * b[1] + a[10] * b[2] + a[11] * b[3];
     c[3] = a[12] * b[0] + a[13] * b[1] + a[14] * b[2] + a[15] * b[3];
 #endif
+}
+
+// upper3x3 of matrix4 -> inverse -> transposed mat3
+void matrix_inverse3_transpose(float_t *m, float_t *r)
+{
+    r[0] = m[4+1]*m[8+2] - m[4+2]*m[8+1];
+    r[1] = m[4+2]*m[8+0] - m[4+0]*m[8+2];
+    r[2] = m[4+0]*m[8+1] - m[4+1]*m[8+0];
+
+    r[3] = m[0+2]*m[8+1] - m[0+1]*m[8+2];
+    r[4] = m[0+0]*m[8+2] - m[0+2]*m[8+0];
+    r[5] = m[0+1]*m[8+0] - m[0+0]*m[8+1];
+
+    r[6] = m[0+1]*m[4+2] - m[0+2]*m[4+1];
+    r[7] = m[0+2]*m[4+0] - m[0+0]*m[4+2];
+    r[8] = m[0+0]*m[4+1] - m[0+1]*m[4+0];
+
+    float_t det = 1.0f/(m[0]*r[0] + m[4+0]*r[3] + m[8+0]*r[6]);
+    for (int i = 0; i < 9; i++) r[i] *= det;
 }

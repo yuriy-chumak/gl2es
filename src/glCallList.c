@@ -75,8 +75,24 @@ void glCallList(GLuint id)
 
 	loc = glGetUniformLocation(program, "g2_TextureMatrix");
 	if (loc != -1) {
-		gles_glUniformMatrix4fv(loc, sizeof(GL2.gm.texture)/sizeof(GL2.gm.texture[0]), GL_FALSE,
+		GLsizei count = sizeof(GL2.gm.texture)/sizeof(GL2.gm.texture[0]);
+		gles_glUniformMatrix4fv(loc, count, GL_FALSE,
 			(GLfloat*)GL2.gm.texture);
+	}
+
+	// https://web.archive.org/web/20140205124406/http://www.arcsynthesis.org/gltut/Illumination/Tut09%20Normal%20Transformation.html
+	// gl_NormalMatrix нужна только при неконформных преобразованиях (glScale с разными аргументами)
+	loc = glGetUniformLocation(program, "g2_NormalMatrix");
+	if (loc != -1) {
+		float_t nm[16];
+		if (GL2.vr.enabled) {
+			float_t model_view[16];
+			matrix_mul_matrix(GL2.vr.view, GL2.gm.model_view, model_view);
+			matrix_inverse3_transpose(model_view, nm);
+		}
+		else
+			matrix_inverse3_transpose(GL2.gm.model_view, nm);
+		gles_glUniformMatrix4fv(loc, 1, GL_FALSE, nm);
 	}
 
 	// GLint loc = glGetUniformLocation(program, "g2_LightSource[0].position");

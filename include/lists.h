@@ -9,7 +9,7 @@ typedef struct attrib_t {
 	float4_t vertex;   // gl_Vertex
 	float4_t color;    // gl_Color
 	float4_t color2;   // gl_SecondaryColor
-	float4_t texcoord[1]; // gl_MultiTexCoord{0}, остальные не используем
+	float4_t texcoord[2]; // gl_MultiTexCoord{0}, остальные не используем
 	float3_t normal;   // gl_Normal   (here because unaligned)
 	float_t  fogcoord; // gl_FogCoord (currently unused)
 } attrib_t;
