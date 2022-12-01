@@ -102,9 +102,9 @@ void glCallList(GLuint id)
 
 	// ... others, others, others...
 	// TODO: Quads
-	assert (GL2.begin_mode == GL_POINTS ||
-			GL2.begin_mode == GL_LINE_STRIP || GL2.begin_mode == GL_LINE_LOOP || GL2.begin_mode == GL_LINES ||
-			GL2.begin_mode == GL_TRIANGLE_STRIP || GL2.begin_mode == GL_TRIANGLE_FAN || GL2.begin_mode == GL_TRIANGLES);
+	assert (list->mode == GL_POINTS ||
+			list->mode == GL_LINE_STRIP     || list->mode == GL_LINE_LOOP    || list->mode == GL_LINES ||
+			list->mode == GL_TRIANGLE_STRIP || list->mode == GL_TRIANGLE_FAN || list->mode == GL_TRIANGLES);
 	glDrawArrays(list->mode, 0, list->count);
 
 	(void) 0;

@@ -18,7 +18,7 @@
       (define args (cdr (vector->list arguments)))
 
       ;; external function
-      (for-each display (list return " " "(* " PREFIX name ")"))
+      (for-each display (list "extern " return " " "(* " PREFIX name ")"))
       (display "(")
       (unless (null? args)
          (let loop ((args args))

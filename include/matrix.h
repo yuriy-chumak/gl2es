@@ -1,3 +1,4 @@
+#pragma once
 #include <gl2es.h>
 
 // vectors

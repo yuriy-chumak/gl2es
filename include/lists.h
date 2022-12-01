@@ -3,6 +3,8 @@
 // default inexact type
 #include <float_t.h>
 
+#include <stddef.h>
+
 // todo: optimize attrib structure to actually used attributes
 // that can be done for the first "glVertex" call
 typedef struct attrib_t {

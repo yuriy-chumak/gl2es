@@ -2,13 +2,17 @@
 
 #include <GLES3/gl3.h>
 #include <GLES2/gl2ext.h>
-#include <GLES3/gl3ext.h>
+//#include <GLES3/gl3ext.h>
 
 #include <EGL/egl.h>
 
 #include <gl2es.h>
 #include <string.h>
 #include <stdlib.h>
+
+#ifndef GL2ES_LIBRARY_SO_NAME
+#  define GL2ES_LIBRARY_SO_NAME "libgl2es.so"
+#endif
 
 state_t GL2;
 
@@ -44,7 +48,7 @@ void* gl2GetProcAddress(char const * procname)
 {
 	static void* gl2es = 0;
 	if (gl2es == 0)
-		gl2es = dlopen("libgl2es.so", RTLD_LAZY);
+		gl2es = dlopen(GL2ES_LIBRARY_SO_NAME, RTLD_LAZY);
 	void* proc = 0;
 	if (gl2es != 0)
 		proc = dlsym(gl2es, procname);

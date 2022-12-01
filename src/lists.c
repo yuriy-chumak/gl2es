@@ -1,5 +1,4 @@
 #include <gl2es.h>
-#include <gles-2.0.h>
 
 #include <assert.h>
 #include <stdlib.h>
