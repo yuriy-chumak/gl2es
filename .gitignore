@@ -1,0 +1,7 @@
+*~
+.vscode/
+
+include/gles-2.0.h
+src/gles-2.0.c
+
+src/*.b

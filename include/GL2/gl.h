@@ -58,6 +58,7 @@ typedef struct {
 	size_t stack_top;
 
 	// Texturing
+	// GLint texturing; // glEnable/glDisable(GL_TEXTURE_2D)
 	GLenum active_texture; // активный текстурный юнит
 
 	// todo: texture, color
@@ -69,6 +70,15 @@ typedef struct {
 		// ...
 	} lights[2];
 
+	// Shaders
+	GLint vc, vct0;
+
 } state_t;
+
+// internal functions
+#define PP_VERTEX_COLOR 1
+#define PP_VERTEX_COLOR_TEXTURE0 2
+GLint glUsePredefinedProgram(int program);
+
 
 extern state_t GL2;

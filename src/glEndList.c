@@ -1,8 +1,9 @@
-#include <gl2es.h>
-#include <lists.h>
+#include <GL2/gl.h>
 
 #include <stdlib.h>
 #include <assert.h>
+
+#include <lists.h>
 
 __attribute__((visibility("default")))
 void glEndList(void)

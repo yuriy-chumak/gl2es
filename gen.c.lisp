@@ -77,5 +77,6 @@ void initialize_gl2es() {
 (ff-for-each (lambda (name arguments)
       (print "   LINK(" name ");"))
    json)
+(print )
 (print "   Init();")
 (print "}")

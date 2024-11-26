@@ -1,8 +1,10 @@
-#include <gl2es.h>
+#include <GL2/gl.h>
 
 __attribute__((visibility("default")))
 void glEnd(void)
 {
+	DLOG("glEnd()");
+
 	int selected = GL2.lists_selected;
 	list_t* list = List(selected);
 

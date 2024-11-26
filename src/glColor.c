@@ -1,4 +1,5 @@
-#include <gl2es.h>
+#include <GL2/gl.h>
+
 #include <lists.h>
 
 static

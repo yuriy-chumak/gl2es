@@ -1,4 +1,4 @@
-#include <gl2es.h>
+#include <GL2/gl.h>
 
 #include <string.h>
 #include <matrix.h>
@@ -25,7 +25,7 @@ void glLoadMatrix(float_t* m)
 			break;
 		}
 		default:
-			ELOG("Unsupported matrix mode");
+			ELOG("glLoadMatrix error: Unsupported matrix mode %x", GL2.matrix_mode);
 	}
 
 	(void) 0;

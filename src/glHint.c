@@ -1,4 +1,4 @@
-#include <gl2es.h>
+#include <GL2/gl.h>
 
 __attribute__((visibility("default")))
 void glHint(GLenum target, GLenum mode)

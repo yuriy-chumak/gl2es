@@ -1,4 +1,4 @@
-#include <gl2es.h>
+#include <GL2/gl.h>
 #include <lists.h>
 
 #include <stdlib.h>
@@ -8,6 +8,7 @@
 static
 void glVertex(float_t x, float_t y, float_t z, float_t w)
 {
+	VLOG("glVertex(%f, %f, %f, %f)", x, y, z, w);
 	int selected = GL2.lists_selected;
 	list_t* list = List(selected);
 	attrib_t* attrib;
