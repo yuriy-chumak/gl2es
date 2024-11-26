@@ -69,6 +69,9 @@ typedef struct {
 		// ...
 	} lights[2];
 
+	// Shaders
+	GLint vc;
+
 } state_t;
 
 extern state_t GL2;

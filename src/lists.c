@@ -1,9 +1,7 @@
-#include <gl2es.h>
+#include <GL2/gl.h>
 
 #include <assert.h>
 #include <stdlib.h>
-
-extern state_t GL2;
 
 list_t* List(size_t id)
 {

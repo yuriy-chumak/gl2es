@@ -1,10 +1,12 @@
-#include <gl2es.h>
+#include <GL2/gl.h>
 
 #include <string.h>
 
 __attribute__((visibility("default")))
 void glOrtho(GLdouble left, GLdouble right, GLdouble bottom, GLdouble top, GLdouble nearVal, GLdouble farVal)
 {
+	DLOG("glOrtho(%f, %f, %f, %f, %f, %f)", left, right, bottom, top, nearVal, farVal);
+
 	GLfloat tmp[16];
 	memset(tmp, 0, 16*sizeof(GLfloat));
 

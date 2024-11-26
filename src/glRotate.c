@@ -1,4 +1,4 @@
-#include <gl2es.h>
+#include <GL2/gl.h>
 
 #include <matrix.h>
 #include <math.h>

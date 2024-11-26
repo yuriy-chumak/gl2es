@@ -1,8 +1,9 @@
-#include <gl2es.h>
+#include <GL2/gl.h>
 
 __attribute__((visibility("default")))
 void glGetIntegerv(GLenum pname, GLint *params)
 {
+	ILOG("glGetIntegerv(%04x,%p)", pname, params);
 	if (!params) return;
 
 	switch (pname) {

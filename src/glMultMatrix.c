@@ -1,10 +1,11 @@
-#include <gl2es.h>
+#include <GL2/gl.h>
 
 #include <matrix.h>
 
 static
 void glMultMatrix(float_t* m)
 {
+	DLOG("glMultMatrix(%p), matrix_mode = %04x", m, GL2.matrix_mode);
 	switch (GL2.matrix_mode) {
 		case GL_PROJECTION:
 			matrix_mul_matrix(&GL2.gm.projection[0], m, &GL2.gm.projection[0]);
@@ -24,7 +25,7 @@ void glMultMatrix(float_t* m)
 			break;
 		}
 		default:
-			ELOG("Unsupported matrix mode");
+			ELOG("glMultMatrix error: Unsupported matrix mode %x", GL2.matrix_mode);
 	}
 
 	(void) 0;

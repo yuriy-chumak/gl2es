@@ -1,4 +1,4 @@
-#include <gl2es.h>
+#include <GL2/gl.h>
 #include <string.h>
 #include <stdlib.h>
 
@@ -22,7 +22,7 @@ void glPopMatrix(void)
 			break;
 		}
 		default:
-			ELOG("Unsupported matrix mode");
+			ELOG("glPopMatrix error: Unsupported matrix mode %x", GL2.matrix_mode);
 	}
 
 	(void) 0;

@@ -1,17 +1,18 @@
-#include <gl2es.h>
-#include <lists.h>
-
+#include <GL2/gl.h>
 #include <stdlib.h>
+
+#include <lists.h>
 
 #define DEFAULT_COUNT 4
 
 __attribute__((visibility("default")))
 GLuint glGenLists(GLsizei range)
 {
+	ILOG("glGenLists(%d)", range);
+
 	size_t count = GL2.lists_count;
 	GL2.lists = realloc(GL2.lists, (count + range) * sizeof(list_t));
 	GL2.lists_count = (count + range);
-	ILOG("glGenLists(%d)", range);
 
 	for (int i = count; i < count + range; i++) {
 		list_t* list = List(i);

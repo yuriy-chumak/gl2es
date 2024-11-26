@@ -1,4 +1,4 @@
-#include <gl2es.h>
+#include <GL2/gl.h>
 
 #include <assert.h>
 #include <matrix.h>
@@ -6,14 +6,25 @@
 __attribute__((visibility("default")))
 void glCallList(GLuint id)
 {
+	ILOG("glCallList(%d)", id);
+	ILOG("gles_glGetIntegerv = %p", gles_glGetIntegerv);
 	list_t* list = List(id);
 
-	GLint program = 0;
+	GLint saved, program = 0;
 	gles_glGetIntegerv(GL_CURRENT_PROGRAM, &program);
+	saved = program;
+
+	ILOG("program = %d", program);
+
+	// use default program if no exists one
+	if (program == 0) {
+		glUseProgram(program = GL2.vc);
+	}
 
 	// Attributes
 #define ATTRIBUTE(name, field) {\
 	GLint attribute = glGetAttribLocation(program, name);\
+	VLOG(name " = %d", attribute);\
 	if (attribute != -1) {\
 		gles_glVertexAttribPointer(attribute,\
 				sizeof(list->attribs[0].field)/sizeof(float_t),\
@@ -40,6 +51,7 @@ void glCallList(GLuint id)
 	GLint loc = -1;
 	// todo: upload when program changed and matrix changed, not every time
 	loc = glGetUniformLocation(program, "g2_ModelViewMatrix");
+	VLOG("g2_ModelViewMatrix = %d", loc);
 	if (loc != -1) {
 		// in case of VR we should multiply modelview matrices
 		if (GL2.vr.enabled) {
@@ -52,6 +64,7 @@ void glCallList(GLuint id)
 	}
 
 	loc = glGetUniformLocation(program, "g2_ModelViewProjectionMatrix");
+	VLOG("g2_ModelViewProjectionMatrix = %d", loc);
 	if (loc != -1) {
 		float_t mvp[16];
 		if (GL2.vr.enabled) {
@@ -65,6 +78,7 @@ void glCallList(GLuint id)
 	}
 
 	loc = glGetUniformLocation(program, "g2_ProjectionMatrix");
+	VLOG("g2_ProjectionMatrix = %d", loc);
 	if (loc != -1) {
 		// use either projection or vr projection matrix
 		if (GL2.vr.enabled)
@@ -74,6 +88,7 @@ void glCallList(GLuint id)
 	}
 
 	loc = glGetUniformLocation(program, "g2_TextureMatrix");
+	VLOG("g2_TextureMatrix = %d", loc);
 	if (loc != -1) {
 		GLsizei count = sizeof(GL2.gm.texture)/sizeof(GL2.gm.texture[0]);
 		gles_glUniformMatrix4fv(loc, count, GL_FALSE,
@@ -83,6 +98,7 @@ void glCallList(GLuint id)
 	// https://web.archive.org/web/20140205124406/http://www.arcsynthesis.org/gltut/Illumination/Tut09%20Normal%20Transformation.html
 	// gl_NormalMatrix нужна только при неконформных преобразованиях (glScale с разными аргументами)
 	loc = glGetUniformLocation(program, "g2_NormalMatrix");
+	VLOG("g2_NormalMatrix = %d", loc);
 	if (loc != -1) {
 		float_t nm[16];
 		if (GL2.vr.enabled) {
@@ -107,5 +123,8 @@ void glCallList(GLuint id)
 			list->mode == GL_TRIANGLE_STRIP || list->mode == GL_TRIANGLE_FAN || list->mode == GL_TRIANGLES);
 	glDrawArrays(list->mode, 0, list->count);
 
+	// restore original data
+	glUseProgram(saved);
+	
 	(void) 0;
 }

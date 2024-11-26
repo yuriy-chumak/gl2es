@@ -1,7 +1,7 @@
-#include <gl2es.h>
+#include <GL2/gl.h>
 #include <string.h>
 
-float_t identity[] = {
+matrix_t identity = {
 	1,0,0,0,
 	0,1,0,0,
 	0,0,1,0,
@@ -11,6 +11,7 @@ float_t identity[] = {
 __attribute__((visibility("default")))
 void glLoadIdentity(void)
 {
+	DLOG("%p: glLoadIdentity(), matrix_mode = %04x", &GL2, GL2.matrix_mode);
 	switch (GL2.matrix_mode) {
 		case GL_PROJECTION:
 			memcpy(GL2.gm.projection, identity, sizeof(matrix_t));
@@ -30,7 +31,7 @@ void glLoadIdentity(void)
 			break;
 		}
 		default:
-			ELOG("Unsupported matrix mode");
+			ELOG("glLoadIdentity error: Unsupported matrix mode %x", GL2.matrix_mode);
 	}
 
 	(void) 0;
