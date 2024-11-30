@@ -71,6 +71,7 @@ extern void Init(void);
 void* GLES = 0;
 __attribute__((visibility(\"default\")))
 void initialize_gl2es() {
+   if (GLES != 0) return;
    GLES = dlopen(\"libGLESv2.so\", RTLD_LAZY);
 ")
 
