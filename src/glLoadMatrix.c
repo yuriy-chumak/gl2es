@@ -6,20 +6,29 @@
 static
 void glLoadMatrix(float_t* m)
 {
+	DLOG("glLoadMatrix(%f, %f, %f, %f)", m[0], m[1], m[2], m[3]);
+	DLOG("glLoadMatrix(%f, %f, %f, %f)", m[4], m[5], m[6], m[7]);
+	DLOG("glLoadMatrix(%f, %f, %f, %f)", m[8], m[9], m[10], m[11]);
+	DLOG("glLoadMatrix(%f, %f, %f, %f)", m[12], m[13], m[14], m[15]);
 	switch (GL2.matrix_mode) {
 		case GL_PROJECTION:
+	                DLOG("   GL_PROJECTION");
 			memcpy(GL2.gm.projection, m, sizeof(matrix_t));
 			break;
 		case GL_MODELVIEW:
+	                DLOG("   GL_MODELVIEW");
 			memcpy(GL2.gm.model_view, m, sizeof(matrix_t));
 			break;
 		case VR_PROJECTION:
+	                DLOG("   VR_PROJECTION");
 			memcpy(GL2.vr.projection, m, sizeof(matrix_t));
 			break;
 		case VR_MODELVIEW:
+	                DLOG("   VR_MODELVIEW");
 			memcpy(GL2.vr.view, m, sizeof(matrix_t));
 			break;
 		case GL_TEXTURE: {
+	                DLOG("   GL_TEXTURE");
 			GLenum i = GL2.active_texture;
 			memcpy(GL2.gm.texture[i], m, sizeof(matrix_t));
 			break;

@@ -8,16 +8,16 @@ void glMultMatrix(float_t* m)
 	DLOG("glMultMatrix(%p), matrix_mode = %04x", m, GL2.matrix_mode);
 	switch (GL2.matrix_mode) {
 		case GL_PROJECTION:
-			matrix_mul_matrix(&GL2.gm.projection[0], m, &GL2.gm.projection[0]);
+			matrix_mul_matrix(GL2.gm.projection, m, GL2.gm.projection);
 			break;
 		case GL_MODELVIEW:
-			matrix_mul_matrix(&GL2.gm.model_view[0], m, &GL2.gm.model_view[0]);
+			matrix_mul_matrix(GL2.gm.model_view, m, GL2.gm.model_view);
 			break;
 		case VR_PROJECTION:
-			matrix_mul_matrix(&GL2.vr.projection[0], m, &GL2.vr.projection[0]);
+			matrix_mul_matrix(GL2.vr.projection, m, GL2.vr.projection);
 			break;
 		case VR_MODELVIEW:
-			matrix_mul_matrix(&GL2.vr.view[0], m, &GL2.vr.view[0]);
+			matrix_mul_matrix(GL2.vr.view, m, GL2.vr.view);
 			break;
 		case GL_TEXTURE: {
 			GLenum i = GL2.active_texture;

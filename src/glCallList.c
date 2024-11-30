@@ -13,7 +13,7 @@ void glCallList(GLuint id)
 	GLint saved, program = 0;
 	gles_glGetIntegerv(GL_CURRENT_PROGRAM, &program);
 	saved = program;
-	ILOG("  program = %d", program);
+	ILOG("  current program = %d", program);
 
 	// texturing
 	GLint texture0 = 0;
@@ -23,15 +23,16 @@ void glCallList(GLuint id)
 	// use default program if no exists one
 	// use different programs in different situations (vct if has active texture)
 	if (program == 0) {
-		if (texture0 == 0) // todo: more programs for more than 1 texture
+		ILOG("use our own program");
+		if (texture0 == 0)
 			program = glUsePredefinedProgram(PP_VERTEX_COLOR);
 		else
-		if (texture0 > 0)
+		if (texture0 > 0) // todo: more programs for more than 1 texture
 			program = glUsePredefinedProgram(PP_VERTEX_COLOR_TEXTURE0);
-		else // default simplest program
+		else // default simplest program (todo: show checker board)
 			program = glUsePredefinedProgram(PP_VERTEX_COLOR);
 	}
-	ILOG("new program = %d", program);
+	ILOG("use program = %d", program);
 
 	// Attributes
 #define ATTRIBUTE(name, field) {\

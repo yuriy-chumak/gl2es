@@ -6,11 +6,11 @@ $(shell [ -s src/gles-2.0.c ] || rm -rf src/gles-2.0.c)
 all: src/gles-2.0.c include/gles-2.0.h \
      $(addprefix src/, $(notdir $(patsubst %.glsl,%.b,$(wildcard shaders/*.glsl))))
 
-src/gles-2.0.c: spec/gles-2.0.json
-	ol gen.c.lisp <$^ >$@
+src/gles-2.0.c: spec/gles-2.0.json $(wildcard src/*.c)
+	ol gen.c.lisp <$< >$@
 
-include/gles-2.0.h: spec/gles-2.0.json
-	ol gen.h.lisp <$^ >$@
+include/gles-2.0.h: spec/gles-2.0.json $(wildcard src/*.c)
+	ol gen.h.lisp <$< >$@
 
 define compile
 	echo "char $1[] = {" >$3

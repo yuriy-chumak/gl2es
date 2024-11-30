@@ -102,6 +102,7 @@ state_t GL2;
 // context already created and activated
 void Init()
 {
+	ILOG("Init()");
 	memset(&GL2, 0, sizeof(GL2));
 
 	// create default display list for (glBegin/glEnd)
