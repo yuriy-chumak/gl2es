@@ -589,10 +589,7 @@ void (* gles_glGetFloatv)(GLenum pname, GLfloat * params) = 0;
 __attribute__((visibility("default")))
 void glGetFloatv(
     GLenum pname, 
-    GLfloat * params)
-{
-   (void) gles_glGetFloatv(pname, params);
-}
+    GLfloat * params);
 //
 GLenum (* gles_glGetError)() = 0;
 __attribute__((visibility("default")))
