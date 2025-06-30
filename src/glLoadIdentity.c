@@ -1,17 +1,17 @@
-#include <GL2/gl.h>
+#include "gl2es.h"
 #include <string.h>
 
 matrix_t identity = {
-	1,0,0,0,
-	0,1,0,0,
-	0,0,1,0,
-	0,0,0,1
+	1, 0, 0, 0,
+	0, 1, 0, 0,
+	0, 0, 1, 0,
+	0, 0, 0, 1
 };
 
 __attribute__((visibility("default")))
 void glLoadIdentity(void)
 {
-	DLOG("%p: glLoadIdentity(), matrix_mode = %04x", &GL2, GL2.matrix_mode);
+	VLOG("%p: glLoadIdentity(), matrix_mode = %04x\n", &GL2, GL2.matrix_mode);
 	switch (GL2.matrix_mode) {
 		case GL_PROJECTION:
 			memcpy(GL2.gm.projection, identity, sizeof(matrix_t));

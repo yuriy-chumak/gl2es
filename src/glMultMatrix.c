@@ -1,11 +1,11 @@
-#include <GL2/gl.h>
+#include "gl2es.h"
 
 #include <matrix.h>
 
 static
 void glMultMatrix(float_t* m)
 {
-	DLOG("glMultMatrix(%p), matrix_mode = %04x", m, GL2.matrix_mode);
+	VLOG("glMultMatrix(%p), matrix_mode = %04x\n", m, GL2.matrix_mode);
 	switch (GL2.matrix_mode) {
 		case GL_PROJECTION:
 			matrix_mul_matrix(GL2.gm.projection, m, GL2.gm.projection);

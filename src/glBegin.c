@@ -1,9 +1,9 @@
-#include <GL2/gl.h>
+#include "gl2es.h"
 
 __attribute__((visibility("default")))
 void glBegin(GLenum mode)
 {
-	DLOG("glBegin(%04x)", mode);
+	VLOG("glBegin(%04x)\n", mode);
 	int selected = GL2.lists_selected;
 	list_t* list = List(selected);
 	list->mode = mode;

@@ -1,100 +1,28 @@
-#include "log.h"
+#include "gl2es.h"
 
-#include <GLES3/gl3.h>
-#include <GLES2/gl2ext.h>
-//#include <GLES3/gl3ext.h>
+#ifndef __WAJIC__
+#	include <GLES3/gl3.h>
+#	include <GLES2/gl2ext.h>
+ //#include <GLES3/gl3ext.h>
 
-#include <EGL/egl.h>
-#include <GL2/gl.h>
+#	include <EGL/egl.h>
+#else
+#	include <GL/gl.h>
+#endif
 
 #include <string.h>
 #include <stdlib.h>
+
 
 #ifndef GL2ES_LIBRARY_SO_NAME
 #  define GL2ES_LIBRARY_SO_NAME "libgl2es.so"
 #endif
 
+#ifndef __WAJIC__
+
 // shaders
 
-static
-void check_chader(GLint shader) {
-	GLint compiled;
-	
-	glGetShaderiv(shader, GL_COMPILE_STATUS, &compiled);
-	if (compiled != GL_TRUE) {
-    	GLsizei length = 0;
-    	GLchar message[999];
-    	glGetShaderInfoLog(shader, sizeof(message), &length, message);
-		ELOG("shader error: %s", message);
-	}
-}
-
-static
-GLint create_program(char* code)
-{
-	GLuint vshader = glCreateShader(GL_VERTEX_SHADER);
-	{
-		const GLchar* codes[] = { "#define __VERTEX_SHADER__", code };
-		glShaderSource(vshader, 2, codes, NULL);
-		glCompileShader(vshader);  check_chader(vshader);
-	}
-	// ILOG("vshader = %d", vshader);
-
-	GLuint fshader = glCreateShader(GL_FRAGMENT_SHADER);
-	{
-		const GLchar* codes[] = { "#define __FRAGMENT_SHADER__", code };
-		glShaderSource(fshader, 2, codes, NULL);
-		glCompileShader(fshader);  check_chader(fshader);
-	}
-	// ILOG("fshader = %d", fshader);
-
-
-	GLuint program = glCreateProgram();
-	glAttachShader(program, vshader);
-	glAttachShader(program, fshader);
-	glLinkProgram(program);
-	GLint linked;
-
-	glGetProgramiv(program, GL_LINK_STATUS, &linked);
-	if (linked != GL_TRUE) {
-    	GLsizei length = 0;
-    	GLchar message[999];
-    	glGetProgramInfoLog(program, sizeof(message), &length, message);
-		ELOG("program error: %s", message);
-	}
-	glDetachShader(program, vshader);
-	glDetachShader(program, fshader);
-
-	// ILOG("program = %d", program);
-	return program;
-}
-
-GLint glUsePredefinedProgram0(GLint* program, char* code)
-{
-	if (*program == 0)
-		*program = create_program(code);
-	glUseProgram(*program);
-	return *program;
-}
-
-GLint glUsePredefinedProgram(int id)
-{
-	switch (id) {
-		case PP_VERTEX_COLOR: {
-			#include "vc.b"    // vertices + color
-			return glUsePredefinedProgram0(&GL2.vc, vc);
-		}
-		case PP_VERTEX_COLOR_TEXTURE0: {
-			#include "vct0.b"    // vertices + color + texture0
-			return glUsePredefinedProgram0(&GL2.vct0, vct0);
-		}
-
-		default:
-			ELOG("glUsePredefinedProgram(%d): unknown ID", id);
-	}
-	return 0;
-}
-
+#endif
 // global GL2 state
 state_t GL2;
 
@@ -102,7 +30,7 @@ state_t GL2;
 // context already created and activated
 void Init()
 {
-	ILOG("Init()");
+	// VLOG("Init()\n");
 	memset(&GL2, 0, sizeof(GL2));
 
 	// create default display list for (glBegin/glEnd)
@@ -111,6 +39,12 @@ void Init()
 
 	// default matrix mode
 	GL2.matrix_mode = GL_MODELVIEW;
+	// setup initial matrices
+	GL2.gm.projection[0] = GL2.gm.projection[5] = GL2.gm.projection[10] = GL2.gm.projection[15] = 1;
+	GL2.gm.model_view[0] = GL2.gm.model_view[5] = GL2.gm.model_view[10] = GL2.gm.model_view[15] = 1;
+	GL2.gm.texture[0][0] = GL2.gm.texture[0][5] = GL2.gm.texture[0][10] = GL2.gm.texture[0][15] = 1;
+	GL2.gm.texture[1][0] = GL2.gm.texture[1][5] = GL2.gm.texture[1][10] = GL2.gm.texture[1][15] = 1;
+
 	// create default matrix stack
 	GL2.stack = calloc(0, sizeof(float_t) * 16);
 
@@ -140,7 +74,9 @@ void* gl2GetProcAddress(char const * procname)
 	if (gl2es != 0)
 		proc = dlsym(gl2es, procname);
 	// not found? load a real egl proc
+#ifndef __WAJIC__
 	if (proc == 0)
 		proc = eglGetProcAddress(procname);
+#endif
 	return proc;
 }

@@ -1,7 +1,6 @@
-#version 100
 precision mediump float;
 
-#ifdef __VERTEX_SHADER__
+#ifdef VERTEX_SHADER
 // vertex shader
 attribute vec4 g2_Vertex;
 attribute vec4 g2_Color;
@@ -18,7 +17,7 @@ void main() {
 }
 #endif
 
-#ifdef __FRAGMENT_SHADER__
+#ifdef FRAGMENT_SHADER
 // fragment shader
 varying vec4 color;
 varying vec4 texcoord0;

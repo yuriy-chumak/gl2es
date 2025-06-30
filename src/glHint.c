@@ -1,4 +1,4 @@
-#include <GL2/gl.h>
+#include "gl2es.h"
 
 __attribute__((visibility("default")))
 void glHint(GLenum target, GLenum mode)
@@ -14,7 +14,7 @@ void glHint(GLenum target, GLenum mode)
 			ILOG("  GL_VR_HINT: %d", GL2.vr.enabled);
 			break;
 		default:
-			gles_glHint(target, mode);
+			esHint(target, mode);
 			break;
 	}
 

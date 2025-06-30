@@ -1,5 +1,5 @@
 #pragma once
-#include <GL2/gl.h>
+#include "float_t.h"
 
 // vectors
 void normalize(float_t v[3]);

@@ -1,4 +1,5 @@
 #pragma once
+#include <GL/gl.h>
 
 // default inexact types
 typedef GLfloat float_t;

@@ -1,4 +1,5 @@
-#include <GL2/gl.h>
+#include "gl2es.h"
+
 #include <stdlib.h>
 
 #include <lists.h>
@@ -8,7 +9,7 @@
 __attribute__((visibility("default")))
 GLuint glGenLists(GLsizei range)
 {
-	ILOG("glGenLists(%d)", range);
+	// DLOG("glGenLists(%d)\n", range);
 
 	size_t count = GL2.lists_count;
 	GL2.lists = realloc(GL2.lists, (count + range) * sizeof(list_t));
@@ -19,6 +20,7 @@ GLuint glGenLists(GLsizei range)
 		list->size = DEFAULT_COUNT;
 		list->count = 0;
 		list->attribs = malloc(list->size * sizeof(attrib_t));
+		glGenBuffers(1, &list->vbo);
 	}
 	return count;
 }

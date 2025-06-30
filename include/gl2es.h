@@ -1,12 +1,10 @@
 #pragma once
+#include "es.h"
 
-#include <log.h>
-#include <gles-2.0.h>
+#include "log.h"
 
 // typedef double GLdouble;
 // typedef double GLclampd;
-#include <GL/gl.h>
-#include <GL/glext.h>
 
 // VR Support
 #define VR_PROJECTION        (0x10000 + GL_PROJECTION)
@@ -17,6 +15,9 @@
 
 #define GL_VR_HINT           (0x12001)
 #define GL_VR                (0x10C33) // GL_STEREO+0x10000
+
+// !the name and value can be changed!
+#define GL_VBO_SIZE          (0x12002)
 
 // default inexact type
 #include <float_t.h>
@@ -75,9 +76,11 @@ typedef struct {
 
 } state_t;
 
-// internal functions
-#define PP_VERTEX_COLOR 1
-#define PP_VERTEX_COLOR_TEXTURE0 2
+// shaders.c:
+// todo: make ubershader and compile with different options
+//       once required (using #define and bitmask for features)
+#define PP_VERTEX_COLOR 1 // only color
+#define PP_VERTEX_COLOR_TEXTURE0 2 // color with texture
 GLint glUsePredefinedProgram(int program);
 
 

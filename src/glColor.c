@@ -1,18 +1,16 @@
-#include <GL2/gl.h>
+#include "gl2es.h"
 
 #include <lists.h>
 
 static
 void glColor(float_t r, float_t g, float_t b, float_t a)
 {
-	int selected = GL2.lists_selected;
-	list_t* list = List(selected);
-	attrib_t* attrib = List_Attrib(list, list->count);
+	VLOG("glColor(%f, %f, %f, %f)\n", r, g, b, a);
 
-	attrib->color.r = GL2.color.r = r;
-	attrib->color.g = GL2.color.g = g;
-	attrib->color.b = GL2.color.b = b;
-	attrib->color.a = GL2.color.a = a;
+	GL2.color.r = r;
+	GL2.color.g = g;
+	GL2.color.b = b;
+	GL2.color.a = a;
 
 	(void) 0;
 }

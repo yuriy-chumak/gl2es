@@ -1,23 +1,28 @@
-#version 100
-precision mediump float;
+// Just a color Shader
+varying vec4 color;
 
-#ifdef __VERTEX_SHADER__
-// vertex shader
+// -=( vertex shader )=--------------------------
+#ifdef VERTEX_SHADER
+
 attribute vec4 g2_Vertex;
 attribute vec4 g2_Color;
 
 uniform mat4 g2_ModelViewProjectionMatrix;
+//uniform mat4 g2_ModelViewMatrix;
 
-varying vec4 color;
 void main() {
+	//gl_Position = g2_Vertex;
+	//gl_Position = g2_ModelViewMatrix * g2_Vertex;
 	gl_Position = g2_ModelViewProjectionMatrix * g2_Vertex;
+
+	// output color:
 	color = g2_Color;
 }
 #endif
 
-#ifdef __FRAGMENT_SHADER__
-// fragment shader
-varying vec4 color;
+// -=( fragment shader )=------------------------
+#ifdef FRAGMENT_SHADER
+
 void main(void) {
 	gl_FragColor = color;
 }

@@ -7,6 +7,8 @@
 
 // todo: optimize attrib structure to actually used attributes
 // that can be done for the first "glVertex" call
+
+//__attribute__((packed, aligned(4)))
 typedef struct attrib_t {
 	float4_t vertex;   // gl_Vertex
 	float4_t color;    // gl_Color
@@ -21,6 +23,7 @@ typedef struct list_t { // todo: begin, end, ptr? without size, etc.?
 	size_t count; // количество размещенных вершин
 	GLenum mode;  // режим вывода (на данный момент разные моды одновременно не поддерживаются)
 	struct list_t* next; // TBD. новый (прилинкованный) список для нового режима вывода
+	GLuint vbo;
 	attrib_t* attribs;
 	// ...
 } list_t;

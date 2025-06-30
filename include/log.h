@@ -12,7 +12,7 @@
 #else
 
 #include <stdio.h>
-#define FLOG(...) fprintf(stderr, __VA_ARGS__)
+//#define FLOG(...) //fprintf(stderr, __VA_ARGS__)
 #define ELOG(...) fprintf(stderr, __VA_ARGS__)
 #define DLOG(...) fprintf(stdout, __VA_ARGS__)
 #define VLOG(...) fprintf(stdout, __VA_ARGS__)

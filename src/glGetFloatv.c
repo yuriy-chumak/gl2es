@@ -1,4 +1,5 @@
-#include <GL2/gl.h>
+#include "gl2es.h"
+#include <string.h>
 
 __attribute__((visibility("default")))
 void glGetFloatv(GLenum pname, GLfloat *params)
@@ -34,7 +35,7 @@ void glGetFloatv(GLenum pname, GLfloat *params)
 			break;
 
 		default:
-			gles_glGetFloatv(pname, params);
+			esGetFloatv(pname, params);
 	}
 	(void) 0;
 }

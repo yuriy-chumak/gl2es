@@ -1,15 +1,16 @@
 # cleanup while insuccessfull builds
-# TODO: rename to glovr ?
 # ----------------------------------
 $(shell [ -s src/gles-2.0.c ] || rm -rf src/gles-2.0.c)
 
-all: src/gles-2.0.c include/gles-2.0.h \
+all: src/es.c include/es.h \
      $(addprefix src/, $(notdir $(patsubst %.glsl,%.b,$(wildcard shaders/*.glsl))))
 
-src/gles-2.0.c: spec/gles-2.0.json $(wildcard src/*.c)
+shaders: src/vc.b src/vct0.b
+
+src/es.c: spec/gles-2.0.json $(wildcard src/*.c)
 	ol gen.c.lisp <$< >$@
 
-include/gles-2.0.h: spec/gles-2.0.json $(wildcard src/*.c)
+include/es.h: spec/gles-2.0.json $(wildcard src/*.c)
 	ol gen.h.lisp <$< >$@
 
 define compile
