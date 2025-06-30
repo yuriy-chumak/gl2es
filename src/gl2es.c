@@ -30,7 +30,7 @@ state_t GL2;
 // context already created and activated
 void Init()
 {
-	// VLOG("Init()\n");
+	VLOG("Init()\n");
 	memset(&GL2, 0, sizeof(GL2));
 
 	// create default display list for (glBegin/glEnd)
@@ -53,6 +53,9 @@ void Init()
 	GL2.color.g = 1;
 	GL2.color.b = 1;
 	GL2.color.a = 1;
+
+	// shaders
+	GL2.vc = GL2.vct0 = 0;
 }
 
 void Done()

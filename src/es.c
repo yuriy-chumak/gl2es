@@ -1401,7 +1401,7 @@ WA_EXPORT(gl2esInit)
 __attribute__((visibility("default")))
 #endif
 void gl2esInit() {
-   if (GLES != 0) return;
+   // if (GLES != 0) return;
    GLES = dlopen("libGLESv2.so", RTLD_LAZY);
 
    LINK(GetIntegerv);
