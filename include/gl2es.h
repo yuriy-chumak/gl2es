@@ -3,8 +3,11 @@
 
 #include "log.h"
 
-// typedef double GLdouble;
-// typedef double GLclampd;
+// quads: enable OpenGL compatible triangle ordering
+#define COMPATIBLE_QUADS 1
+
+// ?: typedef double GLdouble;
+// ?: typedef double GLclampd;
 
 // VR Support
 #define VR_PROJECTION        (0x10000 + GL_PROJECTION)
