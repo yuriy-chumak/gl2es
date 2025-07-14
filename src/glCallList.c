@@ -98,15 +98,18 @@ void glCallList(GLuint id)
 		esUniformMatrix4fv(loc, 1, GL_FALSE, mvp);
 	}
 
-	// loc = glGetUniformLocation(program, "g2_ProjectionMatrix");
-	// VLOG("g2_ProjectionMatrix = %d", loc);
-	// if (loc != -1) {
-	// 	// use either projection or vr projection matrix
+	loc = glGetUniformLocation(program, "g2_ProjectionMatrix");
+	VLOG("g2_ProjectionMatrix = %d", loc);
+	if (loc != -1) {
+		// use either projection or vr projection matrix
 	// 	if (GL2.vr.enabled)
 	// 		esUniformMatrix4fv(loc, 1, GL_FALSE, GL2.vr.projection);
 	// 	else
-	// 		esUniformMatrix4fv(loc, 1, GL_FALSE, GL2.gm.projection);
-	// }
+			esUniformMatrix4fv(loc, 1, GL_FALSE, GL2.gm.projection);
+	}
+
+	// loc = glGetUniformLocation(program, "g2_NormalMatrix");
+	// TODO: Transpose of the inverse of the upper leftmost 3x3 of gl_ModelViewMatrix
 
 	// loc = glGetUniformLocation(program, "g2_TextureMatrix");
 	// VLOG("g2_TextureMatrix = %d", loc);
