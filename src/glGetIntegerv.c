@@ -10,6 +10,10 @@ void glGetIntegerv(GLenum pname, GLint *params)
 		case GL_MATRIX_MODE:
 			*params = GL2.matrix_mode;
 			break;
+		case GL_SHADE_MODEL:
+			*params = GL2.shade_model;
+			break;
+
 		case GL_VR:
 			ILOG("  GL_VR: %d\n", GL2.vr.present);
 			*params = GL2.vr.present;

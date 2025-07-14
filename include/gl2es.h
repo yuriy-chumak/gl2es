@@ -30,6 +30,10 @@
 
 // OpenGL states:
 typedef struct {
+	// Global Options
+	GLenum shade_model;
+
+	// Global State(s)
 	float4_t color; // glColor
 
 	// Display Lists (todo: stucture lists_t ?)
