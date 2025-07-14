@@ -13,6 +13,9 @@ NATIVE_PLATFORMS = armeabi-v7a arm64-v8a x86 x86_64
 
 # end of setup
 
+# extract package name from AndroidManifest.xml
+PACKAGE=$(shell cat AndroidManifest.xml |sed -n 's/.*package="\([^"]*\)".*/\1/p')
+
 # -------------------------------------------------
 .PHONY: help
 help:
@@ -49,7 +52,6 @@ $(foreach so,$(LIBS),$(eval $(call SO,$(so))))
 assets: assets/lib/gl/config.scm
 assets: assets/lib/gl/Android.lisp
 assets: assets/lib/gl.scm
-assets: assets/lib/gl-2/gl2es.lisp
 assets: assets/OpenGL/platform.scm
 assets: assets/OpenGL/1.scm
 assets: assets/OpenGL/1.1.scm
@@ -66,11 +68,19 @@ assets: assets/otus/case-apply.scm
 assets: assets/otus/ffi.scm
 
 # -------------------------------------------------
-install:
-	adb -d install -r $(APK_NAME)
-
-uninstall:
-	adb -d uninstall lib.gl2es.programs
-
 clean:
 	rm -rf dex/ lib/ obj/
+
+install:
+	adb -d install -r $(APK_NAME)
+uninstall:
+	adb -d uninstall $(PACKAGE)
+reinstall:
+	$(MAKE) uninstall install
+
+start:
+	adb shell am start -n $(PACKAGE)/.Main
+stop:
+	adb shell am force-stop $(PACKAGE)
+restart:
+	$(MAKE) stop start
