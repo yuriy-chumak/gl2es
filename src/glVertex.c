@@ -8,7 +8,7 @@
 static
 void glVertex(float_t x, float_t y, float_t z, float_t w)
 {
-	VLOG("glVertex(%f, %f, %f, %f)\n", x, y, z, w);
+	// VLOG("glVertex(%f, %f, %f, %f)\n", x, y, z, w);
 	int selected = GL2.lists_selected;
 
 	list_t* list = List(selected);

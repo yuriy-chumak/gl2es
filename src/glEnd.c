@@ -3,7 +3,7 @@
 __attribute__((visibility("default")))
 void glEnd(void)
 {
-	VLOG("glEnd()\n");
+	// VLOG("glEnd()\n");
 
 	int selected = GL2.lists_selected;
 	list_t* list = List(selected);
