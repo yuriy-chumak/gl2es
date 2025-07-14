@@ -8,11 +8,12 @@ GLint create_program(char* code)
 	{
 		const GLchar* codes[] = {
 			//"#version 110",
+			"#define VERTEX_SHADER\n",
+
 			"precision mediump float;\n",
 			//"precision lowp float;\n"
-			"#define VERTEX_SHADER\n",
 			code };
-		glShaderSource(vshader, sizeof(codes)/sizeof(*codes), codes, NULL);
+		esShaderSource(vshader, sizeof(codes)/sizeof(*codes), codes, NULL);
 		glCompileShader(vshader);
 
 		GLint compiled = 0;
@@ -31,11 +32,12 @@ GLint create_program(char* code)
 	{
 		const GLchar* codes[] = {
 			//"#version 110",
+			"#define FRAGMENT_SHADER\n",
+
 			"precision mediump float;\n",
 			// "precision lowp float;\n"
-			"#define FRAGMENT_SHADER\n",
 			code };
-		glShaderSource(fshader, sizeof(codes)/sizeof(*codes), codes, NULL);
+		esShaderSource(fshader, sizeof(codes)/sizeof(*codes), codes, NULL);
 		glCompileShader(fshader);
 
 		GLint compiled;
