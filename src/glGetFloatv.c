@@ -1,6 +1,9 @@
 #include "gl2es.h"
 #include <string.h>
 
+
+
+// TODO: convert data if float_t type is double
 __attribute__((visibility("default")))
 void glGetFloatv(GLenum pname, GLfloat *params)
 {
@@ -11,7 +14,10 @@ void glGetFloatv(GLenum pname, GLfloat *params)
 		// GL matrices
 		case GL_PROJECTION_MATRIX:
 			VLOG("   GL_PROJECTION_MATRIX");
-			memcpy(params, GL2.gm.projection, sizeof(matrix_t));
+			__builtin_choose_expr(__builtin_types_compatible_p (typeof(*params), float_t),
+				memcpy(params, GL2.gm.projection, sizeof(matrix_t)),
+				({for (int i = 0; i < 16; i++) // mat4x4
+					params[i] = GL2.gm.projection[i];}));
 			break;
 		case GL_MODELVIEW_MATRIX:
 			VLOG("   GL_MODELVIEW_MATRIX");
