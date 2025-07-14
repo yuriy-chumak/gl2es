@@ -9,7 +9,6 @@ __attribute__((visibility("default")))
 void glCallList(GLuint id)
 {
 	VLOG("glCallList(%d)\n", id);
-	// assert (GL2.current_list == 0)
 	list_t* list = List(id);
 
 	// shader program

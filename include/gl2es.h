@@ -30,8 +30,6 @@
 
 // OpenGL states:
 typedef struct {
-	int current_list; //? rename to active_list
-
 	float4_t color; // glColor
 
 	// Display Lists (todo: stucture lists_t ?)
