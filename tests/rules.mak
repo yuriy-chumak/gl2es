@@ -129,3 +129,14 @@ stop:
 	adb shell am force-stop $(PACKAGE)
 restart:
 	$(MAKE) stop start
+
+check:
+	@$(MAKE) silentcheck --silent
+
+silentcheck:
+	adb logcat --clear; sleep 0.1
+	adb shell am start -n $(PACKAGE)/.Main >/dev/null
+	(adb logcat -v color ol:I *:S & echo $$! >&3) 3>/tmp/logcat.$$PPID | sed '/APP_CMD_DESTROY/q' |grep "$(notdir $(CURDIR)):"
+	# cleanup
+	kill `cat /tmp/logcat.$$PPID`
+	rm /tmp/logcat.$$PPID
