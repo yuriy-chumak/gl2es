@@ -1,0 +1,15 @@
+*/bin/
+*/dex/
+*/gen/
+*/lib/
+*/obj/
+*/res/
+
+**/R.java
+
+*/debug.apk
+*/debug.keystore
+
+*/assets/otus
+*/assets/lib
+*/assets/OpenGL
