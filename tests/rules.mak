@@ -140,3 +140,6 @@ silentcheck:
 	# cleanup
 	kill `cat /tmp/logcat.$$PPID`
 	rm /tmp/logcat.$$PPID
+
+screenshot:
+	adb exec-out screencap -p > screenshot.png
