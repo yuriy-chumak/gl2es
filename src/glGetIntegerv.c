@@ -1,4 +1,5 @@
 #include "gl2es.h"
+#include <limits.h>
 
 __attribute__((visibility("default")))
 void glGetIntegerv(GLenum pname, GLint *params)
@@ -14,6 +15,16 @@ void glGetIntegerv(GLenum pname, GLint *params)
 			*params = GL2.shade_model;
 			break;
 
+		// The params parameter returns four values: the red, green, blue, and alpha values of the current color.
+		// Integer values, if requested, are linearly mapped from the internal floating-point representation such that 1.0 returns the most positive representable integer value, and -1.0 returns the most negative representable integer value.
+		case GL_CURRENT_COLOR:
+			params[0] = GL2.color.x * INT_MAX;
+			params[1] = GL2.color.y * INT_MAX;
+			params[2] = GL2.color.z * INT_MAX;
+			params[3] = GL2.color.w * INT_MAX;
+			break;
+
+		// custom params
 		case GL_VR:
 			ILOG("  GL_VR: %d\n", GL2.vr.present);
 			*params = GL2.vr.present;
